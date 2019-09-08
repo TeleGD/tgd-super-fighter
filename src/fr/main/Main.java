@@ -8,9 +8,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-/*import fr.menus.Mainmenu;
+import fr.menus.Mainmenu;
 import fr.menus.MenuFinPartie;
-import fr.menus.MenuSortie;*/
+import fr.menus.MenuSortie;
 import fr.main.World;
 
 
@@ -39,10 +39,10 @@ public class Main extends StateBasedGame {
 
 		@Override
 		public void initStatesList(GameContainer container) throws SlickException {
-			/*addState(new Mainmenu());
-			*/addState(new World());/*
+			addState(new Mainmenu());
+			addState(new World());
 			addState(new MenuSortie());
-			addState(new MenuFinPartie());*/
+			addState(new MenuFinPartie());
 		}
 
 

@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import fr.character.Player;
 import fr.util.Rectangle;
+import tests.Playertest;
 
 public class Plateforms extends BasicGameState implements Rectangle {
 
@@ -90,6 +91,16 @@ public class Plateforms extends BasicGameState implements Rectangle {
 	}
 
 	public boolean collPlayer(Player player){
+		if(player.getspeedY()<0){return false;}
+		if(player.getnewY()+player.getHeight()<this.y){return false;}
+		if(player.getY()>this.y){return false;}
+		if(player.getX()>this.x+this.width){return false;}
+		if(player.getX()+player.getWidth()<this.x){return false;}
+		return true;
+
+	}
+
+	public boolean collPlayer(Playertest player){
 		if(player.getspeedY()<0){return false;}
 		if(player.getnewY()+player.getHeight()<this.y){return false;}
 		if(player.getY()>this.y){return false;}

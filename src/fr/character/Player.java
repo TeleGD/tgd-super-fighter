@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -13,22 +14,23 @@ import fr.menus.MenuFinPartie;
 import fr.util.Movable;
 import fr.util.Rectangle;
 
-public abstract class Player extends Movable implements Rectangle {
+public class Player extends Movable implements Rectangle {
 	protected double width, height;
-	protected boolean colplat;// y a t il eu une coll avec une plateforme a la
+	private boolean colplat;// y a t il eu une coll avec une plateforme a la
 	// derniere frame
-	protected boolean vertcolthis;// y a t il eu col avec une plateforme a cette
+	private boolean vertcolthis;// y a t il eu col avec une plateforme a cette
 	// frame
-	protected boolean upPress, leftPress, rightPress, droitegauche, downPress;
-	protected int bas = 600;
-	protected int life;
-	protected boolean invincible=true;// le joueur est invincible (apr�s avoir perdu
+	private boolean upPress, leftPress, rightPress, droitegauche, downPress;
+	private int bas = 600;
+	private int life;
+	private boolean invincible=true;// le joueur est invincible (apr�s avoir perdu
 	// une vie par exemple)
 	private long timeInvincibleDying=3000;// temps d'invincibilit� apr�s une mort
-	protected long timeOfDeath;
+	private long timeOfDeath;
 	private double comptInvincible;//compteur servant au clignotement durant l'invincibilit� apr�s la mort
+	protected boolean leftclick=false;
 
-	/*public Player() {
+	public Player() {
 		this.x = 150;
 		this.y = 0;// 250-32;
 		this.width = 16;
@@ -41,7 +43,7 @@ public abstract class Player extends Movable implements Rectangle {
 		this.invincible = false;
 		this.timeOfDeath = -3000;
 		this.life=3;
-	}*/
+	}
 
 	@Override
 	public double getWidth() {
@@ -60,7 +62,6 @@ public abstract class Player extends Movable implements Rectangle {
 				this.comptInvincible=0;
 			}
 		}else{
-
 			g.setColor(Color.green);
 			g.fillRect((float) x, (float) y, (float) width, (float) height);
 		}
@@ -98,7 +99,42 @@ public abstract class Player extends Movable implements Rectangle {
 		}
 	}
 
-	public abstract void verticalMove();
+	public void verticalMove() {
+		this.vertcolthis = false;
+		posjump = false;
+		for (int i = 0; i < fr.main.World.getPlateforms().size(); i++) {
+			if ((fr.main.World.getPlateforms().get(i).collPlayer(this)) && (!downPress)) {
+				this.y = fr.main.World.getPlateforms().get(i).getY() - this.height;
+				this.accelY = 0;
+				this.speedY = 0;
+				colplat = true;
+				vertcolthis = true;
+				posjump = true;
+			}
+		}
+		if (!invincible) {
+			for (int i = 0; i < fr.main.World.getEnemies().size(); i++) {
+				fr.main.World.getEnemies().get(i).collPlayer(this);
+				if (fr.main.World.getEnemies().get(i).getLife() == 0) {
+					fr.main.World.getEnemies().remove(i);
+				}
+			}
+		}
+		if (isTooLow()) {
+			y = bas - height;
+			speedY = 0;
+			vertcolthis = true;
+			posjump = true;
+		}
+		if (posjump && upPress) {
+			jump();
+		}
+		if (!vertcolthis) {
+			this.accelY = gravity;
+			colplat = false;
+		}
+		this.speedY += this.accelY;
+	}
 
 	public double getnewY() {
 		return newy;
@@ -118,7 +154,7 @@ public abstract class Player extends Movable implements Rectangle {
 		this.vertcolthis = true;
 	}
 
-	protected boolean isTooLow() {
+	private boolean isTooLow() {
 		if (speedY < 0) {
 			return false;
 		}
@@ -131,10 +167,44 @@ public abstract class Player extends Movable implements Rectangle {
 	// Les touches*******************************************************
 	public void keyReleased(int key, char c) {
 
+		switch (key) {
+		case Input.KEY_Z:
+			upPress = false;
+			break;
+
+		case Input.KEY_S:
+			downPress = false;
+			break;
+
+		case Input.KEY_Q:
+			leftPress = false;
+			break;
+
+		case Input.KEY_D:
+			rightPress = false;
+			break;
+		}
 	}
 
 	public void keyPressed(int key, char c) {
+		switch (key) {
+		case Input.KEY_Z:
+			upPress = true;
+			break;
 
+		case Input.KEY_S:
+			downPress = true;
+			break;
+
+		case Input.KEY_Q:
+			leftPress = true;
+			droitegauche = false;
+			break;
+		case Input.KEY_D:
+			rightPress = true;
+			droitegauche = true;
+			break;
+		}
 	}
 
 	//souris**********************************************************************

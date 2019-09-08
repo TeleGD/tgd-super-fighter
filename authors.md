@@ -1,1 +1,2 @@
+- Guillaume Teset (@gteset)
 - Nicolas Bernardes (@nicorb)
