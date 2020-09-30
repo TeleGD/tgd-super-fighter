@@ -28,7 +28,6 @@ public class World2  extends BasicGameState {
 
 	private ArrayList<Plateforms> plateforms = null;
 	private ArrayList<Ennemy> ennemies = null;
-	public StateBasedGame game;
 	private ArrayList<Projectile> hostileprojectiles;
 	private ArrayList<Projectile> alliedprojectiles;
 	private Image img;
@@ -103,7 +102,7 @@ public class World2  extends BasicGameState {
 		Input input = arg0.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			this.setState(0);
-			game.enterState(1, new FadeOutTransition(), new FadeInTransition());
+			arg1.enterState(1, new FadeOutTransition(), new FadeInTransition());
 		}
 		Nico.update(arg0, arg1, arg2);
 
