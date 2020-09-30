@@ -1,17 +1,16 @@
-package games.superFighter.decor;
+package games.superFighter;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import games.superFighter.character.Player;
-import games.superFighter.character.Playertest;
+import games.superFighter.entities.Player;
+import games.superFighter.entities.Playertest;
 import games.superFighter.util.Rectangle;
 
-public class Plateforms extends BasicGameState implements Rectangle {
+public class Plateforms implements Rectangle {
 
 	private double width; // nombre de tuiles suivant x
 	private double height; // nombre de tuiles suivant y
@@ -59,24 +58,13 @@ public class Plateforms extends BasicGameState implements Rectangle {
 	}
 
 	// Fonction de jeu*********************************************
-	@Override
-	public void init(GameContainer container, StateBasedGame game) {
-		// TODO
-	}
-
-	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		g.setColor(Color.blue);
 		g.fillRect((float) x, (float) y, (float) width, (float) height);
 	}
 
-	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		// TODO
-	}
-	@Override
-	public int getID() {
-		return 0;
 	}
 
 	@Override

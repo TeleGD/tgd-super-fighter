@@ -1,12 +1,19 @@
-package games.superFighter.projectiles;
+package games.superFighter.entities;
 
+import games.superFighter.World;
 import games.superFighter.util.Circle;
 import games.superFighter.util.Movable;
 
 public abstract class Projectile extends Movable implements Circle{
 
+	protected World world;
 	protected double radius;
 	public boolean destroyed=false;
+
+	public Projectile(World world, double radius) {
+		this.world = world;
+		this.radius = radius;
+	}
 
 	@Override
 	public double getRadius() {

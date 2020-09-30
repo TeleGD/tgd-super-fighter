@@ -1,15 +1,15 @@
 package games.superFighter.util;
 
-//import games.superFighter.character.Ennemy1;
-import games.superFighter.character.Player;
-import games.superFighter.decor.Plateforms;
+import games.superFighter.Plateforms;
+import games.superFighter.entities.Player;
+//import games.superFighter.entities.ennemies.Ennemy1;
 
 public class collisions {
 
-	private static int margev = 0;
-	private static double valint1, valint2, valint3;
+	private int margev = 0;
+	private double valint1, valint2, valint3;
 
-	public static boolean isCollisionplayer1plateform(Player player1, Plateforms plat, int delta) {
+	public boolean isCollisionplayer1plateform(Player player1, Plateforms plat, int delta) {
 
 		if (player1.getspeedY() < 0) {
 			return false;
@@ -32,7 +32,7 @@ public class collisions {
 	// Detection de collisions entre deux rectangle,le premier etant au-dessus
 	// du deuxieme:
 	/*
-	 * public static boolean col2RecTopBottom(Rectangle top,Rectangle bottom){
+	 * public boolean col2RecTopBottom(Rectangle top,Rectangle bottom){
 	 *
 	 * if((top.getY()+top.getHeight()<bottom.getY())&&(top.getnewY()+top.
 	 * getHeight()<bottom.getnewY())){return false;} else
@@ -45,7 +45,7 @@ public class collisions {
 	 * return true; }
 	 */
 
-	public static boolean col2RecLeftRight(Rectangle left, Rectangle right) {
+	public boolean col2RecLeftRight(Rectangle left, Rectangle right) {
 
 		if (left.getX() + left.getWidth() < right.getX()) {
 			return false;
@@ -60,15 +60,15 @@ public class collisions {
 	}
 
 	/*
-	 * collision ou non de deux rectangle l'un au-dessus de l'autre on consid�re
+	 * collision ou non de deux rectangle l'un au-dessus de l'autre on considère
 	 * que les rectanggle n'ont pas de rotation selon l'axe z (qui sort de
-	 * l'�cran) on a donc la trajectoirede tous les points qui est la m�me pour
-	 * un rectangle donn� c'est pourquoi on s'interesse a certains coins et non
+	 * l'écran) on a donc la trajectoirede tous les points qui est la même pour
+	 * un rectangle donné c'est pourquoi on s'interesse a certains coins et non
 	 * a chaque coin on s'occupe du coin inferieur droit du rectange du haut et
 	 * au coin superieur gauche du rectangle d'en bas
 	 */
 
-	public static boolean col2RecTopBottom(Rectangle top, Rectangle bottom) {
+	public boolean col2RecTopBottom(Rectangle top, Rectangle bottom) {
 		if ((top.getnewY() + top.getHeight() > bottom.getnewY()) && (top.getY() + top.getHeight() < bottom.getY())) {
 
 			if ((top.getnewX() == top.getX()) && (bottom.getnewX() == bottom.getnewX())) {
@@ -126,7 +126,7 @@ public class collisions {
 
 	// Fonction de Quentin
 	/*
-	 * public static boolean isCollisionRectRect(Rectangle rect1, Rectangle
+	 * public boolean isCollisionRectRect(Rectangle rect1, Rectangle
 	 * rect2) { int marge = 0; if (rect1.getX() + rect1.getWidth() - marge >=
 	 * rect2.getX() && rect1.getX() + marge <= rect2.getX() + rect2.getWidth())
 	 * { if (rect1.getY() + rect1.getHeight() - marge >= rect2.getY()&&

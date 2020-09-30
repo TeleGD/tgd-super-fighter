@@ -14,24 +14,23 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import app.AppLoader;
 
-import games.superFighter.character.Playertest;
-import games.superFighter.character.ennemies.Ennemy;
-import games.superFighter.decor.Plateforms;
-import games.superFighter.projectiles.AlliedProjectil;
-import games.superFighter.projectiles.Projectile;
+import games.superFighter.Plateforms;
+import games.superFighter.entities.Ennemy;
+import games.superFighter.entities.Playertest;
+import games.superFighter.entities.Projectile;
 
 public class World2  extends BasicGameState {
 
 	private int ID;
 	private int state;
 
-	private static Playertest Nico;
+	private Playertest Nico;
 
-	private static ArrayList<Plateforms> plateforms = null;
-	private static ArrayList<Ennemy> ennemies = null;
-	public static StateBasedGame game;
-	private static ArrayList<Projectile> hostileprojectiles;
-	private static ArrayList<AlliedProjectil> alliedprojectiles;
+	private ArrayList<Plateforms> plateforms = null;
+	private ArrayList<Ennemy> ennemies = null;
+	public StateBasedGame game;
+	private ArrayList<Projectile> hostileprojectiles;
+	private ArrayList<Projectile> alliedprojectiles;
 	private Image img;
 
 	public World2(int ID) {
@@ -47,7 +46,7 @@ public class World2  extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) {
 		/* Méthode exécutée une unique fois au chargement du programme */
-		Nico=new Playertest();
+		Nico=new Playertest(this);
 		img=AppLoader.loadPicture("/images/superFighter/reticule.png");
 		try {
 			arg0.setMouseCursor(img, 8, 8);
@@ -56,7 +55,7 @@ public class World2  extends BasicGameState {
 		plateforms=new ArrayList<Plateforms>();
 		ennemies=new ArrayList<Ennemy>();
 		hostileprojectiles=new ArrayList<Projectile>();
-		alliedprojectiles=new ArrayList<AlliedProjectil>();
+		alliedprojectiles=new ArrayList<Projectile>();
 
 
 
@@ -143,15 +142,15 @@ public class World2  extends BasicGameState {
 	}
 
 	//Getters**********************************************************
-	public static Playertest getPlayer() {
+	public Playertest getPlayer() {
 		return Nico;
 	}
 
-	public static ArrayList<Plateforms> getPlateforms() {
+	public ArrayList<Plateforms> getPlateforms() {
 		return plateforms;
 	}
 
-	public static ArrayList<Ennemy> getEnemies() {
+	public ArrayList<Ennemy> getEnemies() {
 		return ennemies;
 	}
 

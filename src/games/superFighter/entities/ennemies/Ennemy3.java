@@ -1,13 +1,14 @@
-package games.superFighter.character.ennemies;
+package games.superFighter.entities.ennemies;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import games.superFighter.Plateforms;
 import games.superFighter.World;
-import games.superFighter.character.Player;
-import games.superFighter.decor.Plateforms;
+import games.superFighter.entities.Ennemy;
+import games.superFighter.entities.Player;
 import games.superFighter.util.Rectangle;
 
 public class Ennemy3 extends Ennemy implements Rectangle{
@@ -16,7 +17,8 @@ public class Ennemy3 extends Ennemy implements Rectangle{
 	private double stretch;
 	private boolean arrived;
 
-	public Ennemy3(int x, int y, double stretch, double xorigine) {
+	public Ennemy3(World world, int x, int y, double stretch, double xorigine) {
+		super(world);
 		this.score = 100;
 		this.x = x;
 		this.xorigine = xorigine-1;
@@ -59,11 +61,11 @@ public class Ennemy3 extends Ennemy implements Rectangle{
 		ydone=false;
 		this.newy = y + speedY * delta;
 		this.speedY += accelY;
-		for (int i=0; i<World.getPlateforms().size();i++){
-			if(colPlat(World.getPlateforms().get(i))){
+		for (int i=0; i<world.getPlateforms().size();i++){
+			if(colPlat(world.getPlateforms().get(i))){
 				this.speedY=0;
 				this.accelY=-this.jumppower;
-				this.y=World.getPlateforms().get(i).getY()-this.height;
+				this.y=world.getPlateforms().get(i).getY()-this.height;
 				ydone=true;
 				//System.out.println("bonjour");
 			}
@@ -106,15 +108,15 @@ public class Ennemy3 extends Ennemy implements Rectangle{
 		return true;
 	}
 
-	public void collPlayer(Player player){
+	public void collPlayer(StateBasedGame game, Player player){
 		if (playerwins(player)){
 			this.life-=1;
 			player.jump();
 			if(life==0){
-				World.increaseScore(this.score);
+				world.increaseScore(this.score);
 			}
 		}else if (playerloose(player)){
-			player.lifelost();
+			player.lifelost(game);
 		}
 	}
 

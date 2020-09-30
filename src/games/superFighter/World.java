@@ -14,44 +14,42 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import app.AppLoader;
 
-import games.superFighter.character.Perso1;
-import games.superFighter.character.Player;
-import games.superFighter.character.ennemies.Boss1;
-import games.superFighter.character.ennemies.Ennemy;
-import games.superFighter.character.ennemies.Ennemy1;
-import games.superFighter.character.ennemies.Ennemy2;
-import games.superFighter.character.ennemies.Ennemy3;
-import games.superFighter.character.ennemies.Ennemy4;
-import games.superFighter.decor.Plateforms;
-import games.superFighter.projectiles.AlliedProjectil;
-import games.superFighter.projectiles.AlliedStraightProjectil;
-import games.superFighter.projectiles.Explosiveballs;
-import games.superFighter.projectiles.Projectile;
-import games.superFighter.projectiles.StraightProjectil;;
+import games.superFighter.Plateforms;
+import games.superFighter.entities.Ennemy;
+import games.superFighter.entities.Player;
+import games.superFighter.entities.Projectile;
+import games.superFighter.entities.players.Perso1;
+import games.superFighter.entities.ennemies.Boss1;
+import games.superFighter.entities.ennemies.Ennemy1;
+import games.superFighter.entities.ennemies.Ennemy2;
+import games.superFighter.entities.ennemies.Ennemy3;
+import games.superFighter.entities.ennemies.Ennemy4;
+import games.superFighter.entities.projectiles.AlliedStraightProjectil;
+import games.superFighter.entities.projectiles.Explosiveballs;
+import games.superFighter.entities.projectiles.StraightProjectil;;
 
 public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
 
-	private static Player Nico;
-	private static ArrayList<Plateforms> plateforms = null;
-	private static ArrayList<Ennemy> ennemies = null;
-	public static StateBasedGame game;
-	private static double score;
-	private static ArrayList<Projectile> hostileprojectiles;
-	private static ArrayList<AlliedProjectil> alliedprojectiles;
-	private static Plateforms plateform;
-	private static int number;
-	private static double x, y;
-	private static double stretch, xorigine;
-	private static double compt;
+	private Player Nico;
+	private ArrayList<Plateforms> plateforms = null;
+	private ArrayList<Ennemy> ennemies = null;
+	private double score;
+	private ArrayList<Projectile> hostileprojectiles;
+	private ArrayList<Projectile> alliedprojectiles;
+	private Plateforms plateform;
+	private int number;
+	private double x, y;
+	private double stretch, xorigine;
+	private double compt;
 	private Image img;
 	//variables pour la creation de plateform x,y,deltaY,droite?gauche? width,oldwidth
-	private static double deltaY;
-	private static double width,oldwidth;
-	private static double rand,frameapparition;
-	private static int palier;
+	private double deltaY;
+	private double width,oldwidth;
+	private double rand,frameapparition;
+	private int palier;
 
 	public World(int ID) {
 		this.ID = ID;
@@ -72,12 +70,11 @@ public class World extends BasicGameState {
 		try {
 			arg0.setMouseCursor(img, 8, 8);
 		} catch (SlickException exception) {}
-		World.game = arg1;
 		plateforms = new ArrayList<Plateforms>();
 		ennemies = new ArrayList<Ennemy>();
-		Nico = new Perso1();
+		Nico = new Perso1(this);
 		hostileprojectiles = new ArrayList<Projectile>();
-		alliedprojectiles=new ArrayList<AlliedProjectil>();
+		alliedprojectiles=new ArrayList<Projectile>();
 		createEnnemy1(384, 0, 100, 384, 568); createEnnemy2(-100, 150, 150,	200);
 
 		newdecor();
@@ -132,7 +129,7 @@ public class World extends BasicGameState {
 		Input input = arg0.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			this.setState(1);
-			game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+			arg1.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
 		Nico.update(arg0, arg1, arg2);
 		for(int i=0;i<plateforms.size();i++){
@@ -164,9 +161,9 @@ public class World extends BasicGameState {
 		if((score>4000)&&(palier<4)){frameapparition/=1.2;palier+=1;}
 		if((score>6000)&&(palier<5)){frameapparition*=100;
 		palier+=1;
-		ennemies.add(new Boss1(0,10));
-		ennemies.add(new Boss1(700,10));
-		ennemies.add(new Boss1(350,10));
+		ennemies.add(new Boss1(this,0,10));
+		ennemies.add(new Boss1(this,700,10));
+		ennemies.add(new Boss1(this,350,10));
 		}
 	}
 
@@ -207,40 +204,40 @@ public class World extends BasicGameState {
 		Nico.keyPressed(key, c);
 	}
 
-	public static Player getPlayer() {
+	public Player getPlayer() {
 		return Nico;
 	}
 
-	public static void setPlayer(Player playerP) {
+	public void setPlayer(Player playerP) {
 		Nico = playerP;
 	}
 
-	public static ArrayList<Plateforms> getPlateforms() {
+	public ArrayList<Plateforms> getPlateforms() {
 		return plateforms;
 	}
 
-	public static ArrayList<Ennemy> getEnemies() {
+	public ArrayList<Ennemy> getEnemies() {
 		return ennemies;
 	}
 
 	// Score*****************************************************************************
-	public static void increaseScore(double variation) {
+	public void increaseScore(double variation) {
 		score += variation;
 	}
 
-	public static double getScore() {
+	public double getScore() {
 		return score;
 	}
 
 	// Reset*****************************************************************************
-	public static void reset() {
+	public void reset() {
 		palier=0;
 		frameapparition=120;
 		hostileprojectiles = new ArrayList<Projectile>();
 		Nico.reset();
 		ennemies = new ArrayList<Ennemy>();
 		plateforms = new ArrayList<Plateforms>();
-		alliedprojectiles=new ArrayList<AlliedProjectil>();
+		alliedprojectiles=new ArrayList<Projectile>();
 		score = 0;
 		//createRotationgPlateform();
 		newdecor();
@@ -250,9 +247,9 @@ public class World extends BasicGameState {
 		newOne();
 	}
 
-	// G�n�ration d'ennemis**************************************************************
+	// Génération d'ennemis**************************************************************
 
-	public static void newOne() {
+	public void newOne() {
 		// Choix de la plateforme pour positionner le nouvel ennemi
 		plateform = plateforms.get((int) (Math.floor(Math.random() * plateforms.size()) % plateforms.size()));
 
@@ -265,7 +262,7 @@ public class World extends BasicGameState {
 		if ((xorigine > 1200)&&(plateform.getX()<1100)) {
 			xorigine = 1150;
 		}
-		// choix des coordonn�es pour la cr�ation d'ennemis
+		// choix des coordonnées pour la création d'ennemis
 		if (Math.random() < 0.5) {
 			if (plateform.getX() + plateform.getWidth() > 1200) {
 				y = plateform.getY();
@@ -310,37 +307,37 @@ public class World extends BasicGameState {
 	}
 
 	// Creation des ennemis de maniere determinee
-	public static void createEnnemy1(int xinit, int yinit, double stretch, double xorigine, double yorigine) {
-		ennemies.add(new Ennemy1(xinit, yinit, stretch, xorigine, yorigine));
+	public void createEnnemy1(int xinit, int yinit, double stretch, double xorigine, double yorigine) {
+		ennemies.add(new Ennemy1(this, xinit, yinit, stretch, xorigine, yorigine));
 	}
 
-	public static void createEnnemy2(int xinit, int yinit, double stretch, double xorigine) {
-		ennemies.add(new Ennemy2(xinit, yinit, stretch, xorigine));
+	public void createEnnemy2(int xinit, int yinit, double stretch, double xorigine) {
+		ennemies.add(new Ennemy2(this, xinit, yinit, stretch, xorigine));
 	}
 
-	public static void createEnnemy3(int xinit, int yinit, double stretch, double xorigine) {
-		ennemies.add(new Ennemy3(xinit, yinit, stretch, xorigine));
+	public void createEnnemy3(int xinit, int yinit, double stretch, double xorigine) {
+		ennemies.add(new Ennemy3(this, xinit, yinit, stretch, xorigine));
 	}
 
-	public static void createEnnemy4(int xinit, int yinit, double xorigine, double yorigine) {
-		ennemies.add(new Ennemy4(xinit, yinit, xorigine, yorigine));
+	public void createEnnemy4(int xinit, int yinit, double xorigine, double yorigine) {
+		ennemies.add(new Ennemy4(this, xinit, yinit, xorigine, yorigine));
 	}
 
 	// Creation des projectiles de maniere determinee****************************************
-	public static void createStraightProjectil(double x, double y, double speedx, double speedy) {
-		hostileprojectiles.add(new StraightProjectil(x, y, speedx, speedy));
+	public void createStraightProjectil(double x, double y, double speedx, double speedy) {
+		hostileprojectiles.add(new StraightProjectil(this, x, y, speedx, speedy));
 	}
 
-	public static void createExplosiveBalls(double x,double y, double speedX, double speedY, double timeexp){
-		hostileprojectiles.add(new Explosiveballs(x,y,speedX,speedY,timeexp));
+	public void createExplosiveBalls(double x,double y, double speedX, double speedY, double timeexp){
+		hostileprojectiles.add(new Explosiveballs(this,x,y,speedX,speedY,timeexp));
 	}
 
-	public static void createAlliedStraightProjectil(double x, double y, double speedx, double speedy){
-		alliedprojectiles.add(new AlliedStraightProjectil(x, y, speedx, speedy));
+	public void createAlliedStraightProjectil(double x, double y, double speedx, double speedy){
+		alliedprojectiles.add(new AlliedStraightProjectil(this, x, y, speedx, speedy));
 	}
 
 	// Generation aleatoire de plateformes************************************************************
-	public static void newdecor() {
+	public void newdecor() {
 		createPlateform(2000, 20,-400, 600);
 		y=600;
 		while (y>200){
@@ -367,10 +364,10 @@ public class World extends BasicGameState {
 	}
 
 	// Ajout d'une plateforme
-	public static void createPlateform(float sizeX, float sizeY, float posX, float posY) {
+	public void createPlateform(float sizeX, float sizeY, float posX, float posY) {
 		plateforms.add(new Plateforms(sizeX, sizeY, posX, posY));
 	}
-	/*public static void createRotationgPlateform() {
+	/*public void createRotationgPlateform() {
 		plateforms.add(new RotatingPlateform(100, 20, 600, 150));
 	}*/
 

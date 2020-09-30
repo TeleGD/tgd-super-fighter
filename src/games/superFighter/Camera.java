@@ -1,4 +1,4 @@
-package games.superFighter.camera;
+package games.superFighter;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,9 +9,12 @@ import games.superFighter.util.Movable;
 
 public class Camera extends Movable{
 
-	public Camera(){
-		this.x=World2.getPlayer().getX();
-		this.y=World2.getPlayer().getY();
+	private World2 world2;
+
+	public Camera(World2 world2){
+		this.world2 = world2;
+		this.x=world2.getPlayer().getX();
+		this.y=world2.getPlayer().getY();
 	}
 
 	@Override
@@ -22,7 +25,7 @@ public class Camera extends Movable{
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		this.x=World2.getPlayer().getspeedX();
-		this.y=World2.getPlayer().getspeedY();
+		this.x=world2.getPlayer().getspeedX();
+		this.y=world2.getPlayer().getspeedY();
 	}
 }

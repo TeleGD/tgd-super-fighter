@@ -1,6 +1,6 @@
 package games.superFighter.util;
 
-import games.superFighter.util.Entity;
+import games.superFighter.Entity;
 
 public abstract class Movable extends Entity{
 

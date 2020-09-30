@@ -1,4 +1,4 @@
-package games.superFighter.character.ennemies;
+package games.superFighter.entities.ennemies;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,12 +15,12 @@ public class Ennemy4 extends Ennemy1{
 	private boolean arrived=false;
 	private double compt;
 	private Image img;
-	//Param�tres de tir
+	//Paramètres de tir
 	public double xtir,ytir,norm;
 	//On prend une vitesse de projectiles de 0.3
 
-	public Ennemy4(int x, int y, double xorigine, double yorigine) {
-		super(x,y,0,xorigine,yorigine);
+	public Ennemy4(World world, int x, int y, double xorigine, double yorigine) {
+		super(world,x,y,0,xorigine,yorigine);
 		img=AppLoader.loadPicture("/images/superFighter/Images ennemis/Ennemytourelles/mage.png");
 		this.score = 300;
 		this.speedX = 0.1;
@@ -62,12 +62,12 @@ public class Ennemy4 extends Ennemy1{
 		compt+=1;
 		if(compt>50){
 			compt=0;
-			this.xtir=(World.getPlayer().getnewX()-(x+this.width/2));
-			this.ytir=(World.getPlayer().getnewY()-(y+height/4));
+			this.xtir=(world.getPlayer().getnewX()-(x+this.width/2));
+			this.ytir=(world.getPlayer().getnewY()-(y+height/4));
 			norm=Math.sqrt(xtir*xtir+ytir*ytir);
 			xtir=0.3*xtir/norm;
 			ytir=0.3*ytir/norm;
-			World.createStraightProjectil((this.x+this.width/2),this.y+this.height/4, xtir, ytir);
+			world.createStraightProjectil((this.x+this.width/2),this.y+this.height/4, xtir, ytir);
 		}
 
 	}

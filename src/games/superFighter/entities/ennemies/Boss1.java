@@ -1,4 +1,4 @@
-package games.superFighter.character.ennemies;
+package games.superFighter.entities.ennemies;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,12 +6,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
+import games.superFighter.entities.Ennemy;
 import games.superFighter.util.Rectangle;
 
 public class Boss1 extends Ennemy implements Rectangle{
 	private int compt;
 	private double xtir,ytir,norm;
-	public Boss1(double x,double y){
+	public Boss1(World world,double x,double y){
+		super(world);
 		this.life=20;
 		this.score=500;
 		this.x=x;
@@ -31,18 +33,18 @@ public class Boss1 extends Ennemy implements Rectangle{
 		compt+=1;
 		if(compt>50){
 			compt=0;
-			this.xtir=(World.getPlayer().getnewX()-(x+this.width/4));
-			this.ytir=(World.getPlayer().getnewY()-(y+height/2));
+			this.xtir=(world.getPlayer().getnewX()-(x+this.width/4));
+			this.ytir=(world.getPlayer().getnewY()-(y+height/2));
 			norm=Math.sqrt(xtir*xtir+ytir*ytir);
 			xtir=0.3*xtir/norm;
 			ytir=0.3*ytir/norm;
-			World.createExplosiveBalls((this.x+this.width/4),this.y+this.height/2, xtir, ytir, 500);
-			this.xtir=(World.getPlayer().getnewX()-(x+3*this.width/4));
-			this.ytir=(World.getPlayer().getnewY()-(y+height/2));
+			world.createExplosiveBalls((this.x+this.width/4),this.y+this.height/2, xtir, ytir, 500);
+			this.xtir=(world.getPlayer().getnewX()-(x+3*this.width/4));
+			this.ytir=(world.getPlayer().getnewY()-(y+height/2));
 			norm=Math.sqrt(xtir*xtir+ytir*ytir);
 			xtir=0.3*xtir/norm;
 			ytir=0.3*ytir/norm;
-			World.createExplosiveBalls((this.x+3*this.width/4),this.y+this.height/2, xtir, ytir, 500);
+			world.createExplosiveBalls((this.x+3*this.width/4),this.y+this.height/2, xtir, ytir, 500);
 		}
 	}
 

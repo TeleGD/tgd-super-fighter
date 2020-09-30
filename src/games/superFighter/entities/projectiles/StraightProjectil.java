@@ -1,4 +1,4 @@
-package games.superFighter.projectiles;
+package games.superFighter.entities.projectiles;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,12 +6,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
-import games.superFighter.character.Player;
+import games.superFighter.entities.Player;
+import games.superFighter.entities.Projectile;
 
 public class StraightProjectil extends Projectile {
 
-	public StraightProjectil(double x,double y,double speedX,double speedY){
-		this.radius=5;
+	public StraightProjectil(World world,double x,double y,double speedX,double speedY){
+		super(world, 5);
 		this.x=x;
 		this.y=y;
 		this.speedX=speedX;
@@ -29,9 +30,9 @@ public class StraightProjectil extends Projectile {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		newx=x+speedX*delta;
 		newy=y+speedY*delta;
-		if(colPlayer(World.getPlayer())){
-			if(!World.getPlayer().isInvincible()){
-				World.getPlayer().lifelost();
+		if(colPlayer(world.getPlayer())){
+			if(!world.getPlayer().isInvincible()){
+				world.getPlayer().lifelost(game);
 				this.destroyed=true;
 			}
 		}

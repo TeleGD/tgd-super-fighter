@@ -1,15 +1,21 @@
-package games.superFighter.character.ennemies;
+package games.superFighter.entities;
+
+import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
-import games.superFighter.character.Player;
+import games.superFighter.entities.Player;
 import games.superFighter.util.Movable;
 
 public abstract class Ennemy extends Movable {
+	protected World world;
 	protected int score;
 	protected int life;
 	protected double xorigine;
 	protected double height,width; //On part du principe que tous les ennemis seront des rectangles
-	public void collPlayer(Player joueur) {
+	public Ennemy(World world) {
+		this.world = world;
+	}
+	public void collPlayer(StateBasedGame game, Player joueur) {
 	}
 	public int getLife(){return life;}
 	public double getWidth(){
@@ -23,6 +29,6 @@ public abstract class Ennemy extends Movable {
 		life-=1;
 	}
 	public void scoring(){
-		World.increaseScore(this.score);
+		world.increaseScore(this.score);
 	}
 }

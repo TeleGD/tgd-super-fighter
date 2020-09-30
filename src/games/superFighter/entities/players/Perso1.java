@@ -1,4 +1,4 @@
-package games.superFighter.character;
+package games.superFighter.entities.players;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -6,14 +6,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
+import games.superFighter.entities.Player;
 
 public class Perso1 extends Player{
 
 	private double xtir,ytir,norm;//variables pour le tir
 	private int compt;
 
-	public Perso1(){
-		super();
+	public Perso1(World world){
+		super(world);
 		compt=500;
 	}
 
@@ -40,7 +41,7 @@ public class Perso1 extends Player{
 		norm=Math.sqrt(xtir*xtir+ytir*ytir);
 		xtir=1.2*xtir/norm;
 		ytir=1.2*ytir/norm;
-		World.createAlliedStraightProjectil(x+width/2, y+height/4, xtir, ytir);
+		world.createAlliedStraightProjectil(x+width/2, y+height/4, xtir, ytir);
 		compt+=1;
 	}
 

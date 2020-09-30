@@ -1,4 +1,4 @@
-package games.superFighter.projectiles;
+package games.superFighter.entities.projectiles;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,18 +6,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
-import games.superFighter.util.Circle;
 
-public class Explosiveballs extends StraightProjectil implements Circle{
+public class Explosiveballs extends StraightProjectil {
 //Balles qui tirent 3 autre balles après un certain temps
-	private double radius,time;
+
+	private double time;
 	private double timeexp;
 
-	public Explosiveballs(double x,double y,double speedX,double speedY, double timeexp){
-		super(x,y,speedX,speedY);
+	public Explosiveballs(World world,double x,double y,double speedX,double speedY, double timeexp){
+		super(world,x,y,speedX,speedY);
 		this.time=System.currentTimeMillis();
 		this.timeexp=timeexp;
-		this.radius=5;
 	}
 
 	//@Override
@@ -29,9 +28,9 @@ public class Explosiveballs extends StraightProjectil implements Circle{
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) {
 		newx=x+speedX*arg2;
 		newy=y+speedY*arg2;
-		if(colPlayer(World.getPlayer())){
-			if(!World.getPlayer().isInvincible()){
-				World.getPlayer().lifelost();
+		if(colPlayer(world.getPlayer())){
+			if(!world.getPlayer().isInvincible()){
+				world.getPlayer().lifelost(arg1);
 				this.destroyed=true;
 			}
 		}
@@ -49,9 +48,9 @@ public class Explosiveballs extends StraightProjectil implements Circle{
 			b=b/c;
 			a=0.3*a;
 			b=0.3*b;
-			World.createStraightProjectil(this.x,this.y,speedX,this.speedY);
-			World.createStraightProjectil(this.x,this.y,a,b);
-			World.createStraightProjectil(this.x,this.y,b,-a);
+			world.createStraightProjectil(this.x,this.y,speedX,this.speedY);
+			world.createStraightProjectil(this.x,this.y,a,b);
+			world.createStraightProjectil(this.x,this.y,b,-a);
 			this.destroyed=true;
 		}
 	}

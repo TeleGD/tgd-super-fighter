@@ -36,9 +36,9 @@ public class MenuFinPartie extends BasicGameState {
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) {
-
+		World world = (World) game.getState(3 /* World */);
 		arg2.drawString("Tu as perdu, ton score n'est que de ", 500, 300);
-		arg2.drawString(""+World.getScore(),600,400);
+		arg2.drawString(""+world.getScore(),600,400);
 	}
 
 	@Override

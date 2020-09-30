@@ -1,4 +1,4 @@
-package games.superFighter.character.ennemies;
+package games.superFighter.entities.ennemies;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,7 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
-import games.superFighter.character.Player;
+import games.superFighter.entities.Ennemy;
+import games.superFighter.entities.Player;
 import games.superFighter.util.Rectangle;
 
 public class Ennemy2 extends Ennemy implements Rectangle {
@@ -14,7 +15,8 @@ public class Ennemy2 extends Ennemy implements Rectangle {
 	private double stretch;
 	private boolean arrived;
 
-	public Ennemy2(int x, int y, double stretch, double xorigine) {
+	public Ennemy2(World world, int x, int y, double stretch, double xorigine) {
+		super(world);
 		this.score = 60;
 		this.x = x;
 		this.xorigine = xorigine;
@@ -87,15 +89,15 @@ public class Ennemy2 extends Ennemy implements Rectangle {
 		return true;
 	}
 
-	public void collPlayer(Player player) {
+	public void collPlayer(StateBasedGame game, Player player) {
 		if (playerwins(player)) {
 			this.life -= 1;
 			player.jump();
 			if (life == 0) {
-				World.increaseScore(this.score);
+				world.increaseScore(this.score);
 			}
 		} else if (playerloose(player)) {
-			player.lifelost();
+			player.lifelost(game);
 		}
 	}
 

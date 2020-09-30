@@ -1,4 +1,4 @@
-package games.superFighter.character;
+package games.superFighter.entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,6 +11,7 @@ import games.superFighter.util.Rectangle;
 
 public class Playertest extends Movable implements Rectangle{
 
+	private World2 world2;
 	protected double width,height;
 	private boolean upPress,downPress,rightPress,leftPress,droitegauche,hautbas;
 	private int cameraX,cameraY;
@@ -20,7 +21,8 @@ public class Playertest extends Movable implements Rectangle{
 	private boolean vertcolthis;// y a t il eu col avec une plateforme a cette
 	// frame
 	private double xvid,yvid;
-	public Playertest(){
+	public Playertest(World2 world2){
+		this.world2 = world2;
 		this.width=32;
 		this.height=32;
 		this.xvid=400;
@@ -84,9 +86,9 @@ public class Playertest extends Movable implements Rectangle{
 	public void verticalMove() {
 		this.vertcolthis = false;
 		posjump = false;
-		for (int i = 0; i < World2.getPlateforms().size(); i++) {
-			if ((World2.getPlateforms().get(i).collPlayer(this)) && (!downPress)) {
-				this.y = World2.getPlateforms().get(i).getY() - this.height;
+		for (int i = 0; i < world2.getPlateforms().size(); i++) {
+			if ((world2.getPlateforms().get(i).collPlayer(this)) && (!downPress)) {
+				this.y = world2.getPlateforms().get(i).getY() - this.height;
 				this.accelY = 0;
 				this.speedY = 0;
 				colplat = true;

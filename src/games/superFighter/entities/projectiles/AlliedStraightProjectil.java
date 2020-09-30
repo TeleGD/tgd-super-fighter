@@ -1,4 +1,4 @@
-package games.superFighter.projectiles;
+package games.superFighter.entities.projectiles;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,18 +6,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import games.superFighter.World;
-import games.superFighter.character.ennemies.Ennemy;
+import games.superFighter.entities.Ennemy;
+import games.superFighter.entities.Projectile;
 
-public class AlliedStraightProjectil extends AlliedProjectil {
+public class AlliedStraightProjectil extends Projectile {
 
-
-
-	public AlliedStraightProjectil(double x, double y, double speedX, double speedY) {
+	public AlliedStraightProjectil(World world,double x, double y, double speedX, double speedY) {
+		super(world, 4);
 		this.x=x;
 		this.y=y;
 		this.speedY=speedY;
 		this.speedX=speedX;
-		this.radius=4;
 		this.destroyed=false;
 	}
 
@@ -31,12 +30,12 @@ public class AlliedStraightProjectil extends AlliedProjectil {
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		newx=x+speedX*delta;
 		newy=y+speedY*delta;
-		for(int i=0;i<World.getEnemies().size();i++){
-			if(colEnnemy(World.getEnemies().get(i))){
-				World.getEnemies().get(i).loselife();
-				if(World.getEnemies().get(i).getLife()==0){
-					World.getEnemies().get(i).scoring();
-					World.getEnemies().remove(i);
+		for(int i=0;i<world.getEnemies().size();i++){
+			if(colEnnemy(world.getEnemies().get(i))){
+				world.getEnemies().get(i).loselife();
+				if(world.getEnemies().get(i).getLife()==0){
+					world.getEnemies().get(i).scoring();
+					world.getEnemies().remove(i);
 				}
 				this.destroyed=true;
 			}

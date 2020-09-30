@@ -1,4 +1,4 @@
-package games.superFighter.character;
+package games.superFighter.entities;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,7 +12,9 @@ import games.superFighter.World;
 import games.superFighter.util.Movable;
 import games.superFighter.util.Rectangle;
 
-public class Player extends Movable implements Rectangle {
+public abstract class Player extends Movable implements Rectangle {
+
+	protected World world;
 	protected double width, height;
 	private boolean colplat;// y a t il eu une coll avec une plateforme a la
 	// derniere frame
@@ -21,14 +23,15 @@ public class Player extends Movable implements Rectangle {
 	private boolean upPress, leftPress, rightPress, droitegauche, downPress;
 	private int bas = 600;
 	private int life;
-	private boolean invincible=true;// le joueur est invincible (apr�s avoir perdu
+	private boolean invincible=true;// le joueur est invincible (après avoir perdu
 	// une vie par exemple)
-	private long timeInvincibleDying=3000;// temps d'invincibilit� apr�s une mort
+	private long timeInvincibleDying=3000;// temps d'invincibilité après une mort
 	private long timeOfDeath;
-	private double comptInvincible;//compteur servant au clignotement durant l'invincibilit� apr�s la mort
+	private double comptInvincible;//compteur servant au clignotement durant l'invincibilité après la mort
 	protected boolean leftclick=false;
 
-	public Player() {
+	public Player(World world) {
+		this.world = world;
 		this.x = 150;
 		this.y = 0;// 250-32;
 		this.width = 16;
@@ -75,7 +78,7 @@ public class Player extends Movable implements Rectangle {
 		this.newx = x + speedX * delta;
 		this.newy = y + speedY * delta;
 		this.speedY += accelY;
-		verticalMove();
+		verticalMove(game);
 		moveY(delta);
 
 	}
@@ -97,12 +100,12 @@ public class Player extends Movable implements Rectangle {
 		}
 	}
 
-	public void verticalMove() {
+	public void verticalMove(StateBasedGame game) {
 		this.vertcolthis = false;
 		posjump = false;
-		for (int i = 0; i < World.getPlateforms().size(); i++) {
-			if ((World.getPlateforms().get(i).collPlayer(this)) && (!downPress)) {
-				this.y = World.getPlateforms().get(i).getY() - this.height;
+		for (int i = 0; i < world.getPlateforms().size(); i++) {
+			if ((world.getPlateforms().get(i).collPlayer(this)) && (!downPress)) {
+				this.y = world.getPlateforms().get(i).getY() - this.height;
 				this.accelY = 0;
 				this.speedY = 0;
 				colplat = true;
@@ -111,10 +114,10 @@ public class Player extends Movable implements Rectangle {
 			}
 		}
 		if (!invincible) {
-			for (int i = 0; i < World.getEnemies().size(); i++) {
-				World.getEnemies().get(i).collPlayer(this);
-				if (World.getEnemies().get(i).getLife() == 0) {
-					World.getEnemies().remove(i);
+			for (int i = 0; i < world.getEnemies().size(); i++) {
+				world.getEnemies().get(i).collPlayer(game, this);
+				if (world.getEnemies().get(i).getLife() == 0) {
+					world.getEnemies().remove(i);
 				}
 			}
 		}
@@ -211,12 +214,12 @@ public class Player extends Movable implements Rectangle {
 
 	// Autres
 	// **************************************************************************
-	public void lifelost() {
+	public void lifelost(StateBasedGame game) {
 		this.life -= 1;
 		this.comptInvincible=0;
 		this.timeOfDeath = System.currentTimeMillis();
 		if (life == 0) {
-			World.game.enterState(5 /* MenuFinPartie */, new FadeOutTransition(),
+			game.enterState(5 /* MenuFinPartie */, new FadeOutTransition(),
 					new FadeInTransition());
 		}
 	}
